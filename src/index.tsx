@@ -6,7 +6,7 @@ const LINKING_ERROR =
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo managed workflow\n';
 
-const ReactNativeAppmetrica = NativeModules.ReactNativeAppmetrica  ? NativeModules.ReactNativeAppmetrica  : new Proxy(
+const ReactNativeAppmetrica = NativeModules.ReactNativeAppmetrica ? NativeModules.ReactNativeAppmetrica  : new Proxy(
       {},
       {
         get() {
@@ -15,6 +15,18 @@ const ReactNativeAppmetrica = NativeModules.ReactNativeAppmetrica  ? NativeModul
       }
     );
 
-export function multiply(a: number, b: number): Promise<number> {
-  return ReactNativeAppmetrica.multiply(a, b);
+interface Config {
+  revenueAutoTrackingEnabled?: boolean;
+  appVersion?: string;
+}
+
+export function initialize(key: string, config?: Config) {
+  return ReactNativeAppmetrica.setup(key, config);
+}
+
+export function reportEvent(
+  name: string,
+  attributes?: { [id: string]: string }
+): Promise<boolean> {
+  return ReactNativeAppmetrica.reportEvent(name, attributes);
 }

@@ -7,16 +7,39 @@
 @implementation ReactNativeAppmetrica
 RCT_EXPORT_MODULE()
 
-// Example method
-// See // https://reactnative.dev/docs/native-modules-ios
-RCT_REMAP_METHOD(multiply,
-                 multiplyWithA:(double)a withB:(double)b
+RCT_REMAP_METHOD(setup,
+                 setupWithAppMetricaKey:(NSString *)appMetricaKey withConfig:(NSDictionary *)config)
+{
+    YMMYandexMetricaConfiguration *configuration = [[YMMYandexMetricaConfiguration alloc] initWithApiKey:appMetricaKey];
+
+    if (config[@"appVersion"] != nil) {
+        configuration.appVersion = config[@"appVersion"];
+    }
+
+    if (config[@"revenueAutoTrackingEnabled"] != nil) {
+        configuration.appVersion = config[@"revenueAutoTrackingEnabled"];
+    }
+
+    [YMMYandexMetrica activateWithConfiguration:configuration];
+}
+
+RCT_REMAP_METHOD(reportEvent,
+                 reportEventWithEventName: (NSString *)eventName withAttributes:(NSDictionary *)attributes
                  withResolver:(RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)
 {
-  NSNumber *result = @(a * b);
-
-  resolve(result);
+    if (attributes == nil) {
+        [YMMYandexMetrica reportEvent:eventName onFailure:^(NSError *error) {
+            NSString *msg = [error localizedDescription];
+            reject(@"reportEvent", msg, error);
+        }];
+    } else {
+        [YMMYandexMetrica reportEvent:eventName parameters:attributes onFailure:^(NSError *error) {
+            NSString *msg = [error localizedDescription];
+            reject(@"reportEvent", msg, error);
+        }];
+    }
+    resolve(@"");
 }
 
 // Don't compile this code when we build for the old architecture.
