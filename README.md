@@ -4,6 +4,8 @@ React Native wrapper around AppMetrica
 
 ```sh
 npm install @extence/react-native-appmetrica
+
+!IMPORTANT currently only iOS is supported
 ```
 
 ## Usage
