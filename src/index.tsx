@@ -26,7 +26,7 @@ export function initialize(key: string, config?: Config) {
 
 export function reportEvent(
   name: string,
-  attributes?: { [id: string]: string }
+  attributes?: { [id: string]: string | boolean | number | any }
 ): Promise<boolean> {
   return ReactNativeAppmetrica.reportEvent(name, attributes);
 }

@@ -9,11 +9,17 @@ npm install @extence/react-native-appmetrica
 ## Usage
 
 ```js
-import { multiply } from "@extence/react-native-appmetrica";
+import {initialize, reportEvent} from '@extence/react-native-appmetrica';
 
 // ...
 
-const result = await multiply(3, 7);
+const config = { // config is not required
+  revenueAutoTrackingEnabled: true,
+  appVersion: '1.0.0'
+};
+initialize(SDK_KEY, config);
+reportEvent(event, params);
+
 ```
 
 ## Contributing
