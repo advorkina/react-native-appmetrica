@@ -2,7 +2,6 @@ package com.extencereactnativeappmetrica;
 
 import androidx.annotation.NonNull;
 
-import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -27,7 +26,7 @@ public class ReactNativeAppmetricaModule extends ReactContextBaseJavaModule {
     public String getName() {
         return NAME;
     }
-    
+
 
     @ReactMethod
     public void setup(String key, ReadableMap config) {
