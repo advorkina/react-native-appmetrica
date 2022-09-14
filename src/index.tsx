@@ -6,7 +6,9 @@ const LINKING_ERROR =
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo managed workflow\n';
 
-const ReactNativeAppmetrica = NativeModules.ReactNativeAppmetrica ? NativeModules.ReactNativeAppmetrica  : new Proxy(
+const ReactNativeAppmetrica = NativeModules.ReactNativeAppmetrica
+  ? NativeModules.ReactNativeAppmetrica
+  : new Proxy(
       {},
       {
         get() {
