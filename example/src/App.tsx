@@ -1,18 +1,18 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from '@extence/react-native-appmetrica';
+import { StyleSheet, View, Button } from 'react-native';
+import { reportEvent, initialize } from '@extence/react-native-appmetrica';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
+  initialize('API_KEY');
 
-  React.useEffect(() => {
-    multiply(3, 7).then(setResult);
-  }, []);
+  const onPress = () => {
+    reportEvent('event');
+  };
 
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <Button title={'Report Event'} onPress={onPress} />
     </View>
   );
 }

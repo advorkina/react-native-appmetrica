@@ -1,5 +1,7 @@
 package com.extencereactnativeappmetrica;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.facebook.react.bridge.ReactApplicationContext;
