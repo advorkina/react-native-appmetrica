@@ -34,14 +34,16 @@ public class ReactNativeAppmetricaModule extends ReactContextBaseJavaModule {
     public void setup(String key, ReadableMap config) {
       YandexMetricaConfig.Builder builder = YandexMetricaConfig.newConfigBuilder(key);
 
+      if(config != null) {
+        if (config.hasKey("appVersion")) {
+          builder.withAppVersion(config.getString("appVersion"));
+        }
 
-      if (config.hasKey("appVersion")) {
-        builder.withAppVersion(config.getString("appVersion"));
+        if (config.hasKey("revenueAutoTrackingEnabled")) {
+          builder.withRevenueAutoTrackingEnabled(config.getBoolean("revenueAutoTrackingEnabled"));
+        }
       }
 
-      if (config.hasKey("revenueAutoTrackingEnabled")) {
-        builder.withRevenueAutoTrackingEnabled(config.getBoolean("revenueAutoTrackingEnabled"));
-      }
 
       YandexMetrica.activate(reactContext, builder.build());
     }
