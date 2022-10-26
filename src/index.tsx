@@ -32,3 +32,22 @@ export function reportEvent(
 ): Promise<boolean> {
   return ReactNativeAppmetrica.reportEvent(name, attributes);
 }
+
+export function reportPurchase(
+  price: string,
+  currency: string,
+  productId: string,
+  quantity: number,
+  orderId: string,
+  source: string
+): void {
+  return ReactNativeAppmetrica.reportPurchase(
+    price,
+    currency,
+    productId,
+    quantity,
+    orderId,
+    source,
+    'API_KEY'
+  );
+}

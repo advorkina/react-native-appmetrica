@@ -1,4 +1,5 @@
 #import "ReactNativeAppmetrica.h"
+#import <React/RCTLog.h>
 
 #ifdef RCT_NEW_ARCH_ENABLED
 #import "RNReactNativeAppmetricaSpec.h"
@@ -40,6 +41,23 @@ RCT_REMAP_METHOD(reportEvent,
         }];
     }
     resolve(@"");
+}
+
+RCT_EXPORT_METHOD(reportPurchase:(NSString *)price currency:(NSString *)currency productID:(NSString *) productID quantity:(NSUInteger) quantity orderID: (NSString *) orderID source:(NSString *) source appMetricaKey:(NSString *)appMetricaKey)
+{
+    NSDecimalNumber *convertedPrice = [NSDecimalNumber decimalNumberWithString:price];
+    // Initializing the Revenue instance.
+        YMMMutableRevenueInfo *revenueInfo = [[YMMMutableRevenueInfo alloc] initWithPriceDecimal:convertedPrice currency:currency];
+        revenueInfo.productID = productID;
+    revenueInfo.quantity = quantity;
+        // Setting the OrderID parameter in the payload property to group purchases
+        revenueInfo.payload = @{ @"OrderID": orderID, @"source": source };
+        // Sending the Revenue instance using reporter.
+        id<YMMYandexMetricaReporting> reporter = [YMMYandexMetrica reporterForApiKey:appMetricaKey];
+        [reporter reportRevenue:[revenueInfo copy] onFailure:^(NSError *error) {
+            NSLog(@"Revenue error: %@", error);
+        }];
+
 }
 
 // Don't compile this code when we build for the old architecture.
