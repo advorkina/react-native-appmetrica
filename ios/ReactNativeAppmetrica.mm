@@ -1,5 +1,4 @@
 #import "ReactNativeAppmetrica.h"
-#import <React/RCTLog.h>
 
 #ifdef RCT_NEW_ARCH_ENABLED
 #import "RNReactNativeAppmetricaSpec.h"
