@@ -11,7 +11,7 @@ npm install @extence/react-native-appmetrica
 ## Usage
 
 ```js
-import {initialize, reportEvent} from '@extence/react-native-appmetrica';
+import {initialize, reportEvent, reportPurchase} from '@extence/react-native-appmetrica';
 
 // ...
 
@@ -21,6 +21,7 @@ const config = { // config is not required
 };
 initialize(SDK_KEY, config);
 reportEvent(event, params);
+reportPurchase(price, currency, productId, quantity, orderId, source, SDK_KEY); //Only for ios.
 
 ```
 
