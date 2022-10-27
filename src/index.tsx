@@ -22,6 +22,15 @@ interface Config {
   appVersion?: string;
 }
 
+interface ReportPurchaseParams {
+  price: string;
+  currency: string;
+  productId: string;
+  quantity: number;
+  orderId: string;
+  source: string;
+}
+
 export function initialize(key: string, config?: Config) {
   return ReactNativeAppmetrica.setup(key, config);
 }
@@ -34,20 +43,15 @@ export function reportEvent(
 }
 
 export function reportPurchase(
-  price: string,
-  currency: string,
-  productId: string,
-  quantity: number,
-  orderId: string,
-  source: string
+  reportPurchaseParams: ReportPurchaseParams
 ): void {
   return ReactNativeAppmetrica.reportPurchase(
-    price,
-    currency,
-    productId,
-    quantity,
-    orderId,
-    source,
+    reportPurchaseParams.price,
+    reportPurchaseParams.currency,
+    reportPurchaseParams.productId,
+    reportPurchaseParams.quantity,
+    reportPurchaseParams.orderId,
+    reportPurchaseParams.source,
     'API_KEY'
   );
 }

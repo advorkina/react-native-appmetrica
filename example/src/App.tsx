@@ -15,7 +15,15 @@ export default function App() {
   };
 
   const onReportPurchasePress = () => {
-    reportPurchase('100', 'BYN', 'someID', 2, 'someOrderID', 'AppStore');
+    const params = {
+      price: '100',
+      currency: 'BYN',
+      orderId: 'someOrderID',
+      productId: 'someProductID',
+      quantity: 2,
+      source: 'AppStore',
+    };
+    reportPurchase(params);
   };
 
   return (
