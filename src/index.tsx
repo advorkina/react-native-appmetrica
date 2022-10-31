@@ -43,7 +43,8 @@ export function reportEvent(
 }
 
 export function reportPurchase(
-  reportPurchaseParams: ReportPurchaseParams
+  reportPurchaseParams: ReportPurchaseParams,
+  key: string
 ): void {
   return ReactNativeAppmetrica.reportPurchase(
     reportPurchaseParams.price,
@@ -52,6 +53,6 @@ export function reportPurchase(
     reportPurchaseParams.quantity,
     reportPurchaseParams.orderId,
     reportPurchaseParams.source,
-    'API_KEY'
+    key
   );
 }
