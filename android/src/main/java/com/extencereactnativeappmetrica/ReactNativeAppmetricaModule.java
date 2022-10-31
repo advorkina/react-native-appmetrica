@@ -62,14 +62,11 @@ public class ReactNativeAppmetricaModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void reportPurchase(String price, String currency, String productId, Double quantity, String orderId, String source, String key) {
-    // Creating the Revenue instance.
     Revenue revenue = Revenue.newBuilderWithMicros((long) (Double.parseDouble(price) * Math.pow(10, 6)), Currency.getInstance(currency))
       .withProductID(productId)
       .withQuantity(quantity.intValue())
-      // Passing the OrderID parameter in the .withPayload(String payload) method to group purchases.
       .withPayload(String.format("{\"OrderID\":\"%s\", \"source\":\"%s\"}", orderId, source))
       .build();
-    // Sending the Revenue instance using reporter.
     YandexMetrica.getReporter(reactContext, key).reportRevenue(revenue);
   }
 
