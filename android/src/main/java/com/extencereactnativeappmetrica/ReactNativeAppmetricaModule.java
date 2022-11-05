@@ -9,8 +9,11 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.module.annotations.ReactModule;
+import com.yandex.metrica.Revenue;
 import com.yandex.metrica.YandexMetrica;
 import com.yandex.metrica.YandexMetricaConfig;
+
+import java.util.Currency;
 
 @ReactModule(name = ReactNativeAppmetricaModule.NAME)
 public class ReactNativeAppmetricaModule extends ReactContextBaseJavaModule {
@@ -56,5 +59,15 @@ public class ReactNativeAppmetricaModule extends ReactContextBaseJavaModule {
         YandexMetrica.reportEvent(name, attributes.toHashMap());
       }
     }
+
+  @ReactMethod
+  public void reportPurchase(String price, String currency, String productId, Double quantity, String orderId, String source, String key) {
+    Revenue revenue = Revenue.newBuilderWithMicros((long) (Double.parseDouble(price) * Math.pow(10, 6)), Currency.getInstance(currency))
+      .withProductID(productId)
+      .withQuantity(quantity.intValue())
+      .withPayload(String.format("{\"OrderID\":\"%s\", \"source\":\"%s\"}", orderId, source))
+      .build();
+    YandexMetrica.getReporter(reactContext, key).reportRevenue(revenue);
+  }
 
 }

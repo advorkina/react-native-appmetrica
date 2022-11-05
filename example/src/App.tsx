@@ -16,14 +16,14 @@ export default function App() {
 
   const onReportPurchasePress = () => {
     const params = {
-      price: '100',
-      currency: 'BYN',
+      price: '1000',
+      currency: 'RUB',
       orderId: 'someOrderID',
       productId: 'someProductID',
-      quantity: 2,
+      quantity: 1,
       source: 'AppStore',
     };
-    reportPurchase(params);
+    reportPurchase(params, 'API_KEY');
   };
 
   return (
@@ -39,10 +39,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  box: {
-    width: 60,
-    height: 60,
-    marginVertical: 20,
   },
 });
