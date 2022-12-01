@@ -1,9 +1,9 @@
 package com.extencereactnativeappmetrica;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -52,22 +52,25 @@ public class ReactNativeAppmetricaModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void reportEvent(String name, ReadableMap attributes) {
+    public void reportEvent(String name, ReadableMap attributes, Promise promise) {
       if (attributes == null) {
         YandexMetrica.reportEvent(name);
       } else {
         YandexMetrica.reportEvent(name, attributes.toHashMap());
       }
+      promise.resolve(Arguments.createMap());
     }
 
-  @ReactMethod
-  public void reportPurchase(String price, String currency, String productId, Double quantity, String orderId, String source, String key) {
-    Revenue revenue = Revenue.newBuilderWithMicros((long) (Double.parseDouble(price) * Math.pow(10, 6)), Currency.getInstance(currency))
-      .withProductID(productId)
-      .withQuantity(quantity.intValue())
-      .withPayload(String.format("{\"OrderID\":\"%s\", \"source\":\"%s\"}", orderId, source))
-      .build();
-    YandexMetrica.getReporter(reactContext, key).reportRevenue(revenue);
-  }
+    @ReactMethod
+    public void reportRevenue(ReadableMap attributes) {
+      double price = attributes.getDouble("price");
+      Currency currency = Currency.getInstance(attributes.getString("currency"));
+      Revenue revenue = Revenue
+              .newBuilderWithMicros((long) price, currency)
+              .withQuantity(1)
+              .withProductID(attributes.getString("productID"))
+              .build();
+      YandexMetrica.reportRevenue(revenue);
+    }
 
 }
