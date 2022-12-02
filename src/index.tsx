@@ -25,7 +25,9 @@ interface Config {
 export interface RevenueParams {
   readonly quantity: number;
   readonly productID: string;
-  readonly transactionID: string;
+  readonly transactionID?: string;
+  readonly price: number;
+  readonly currency: string;
 }
 
 export function initialize(key: string, config?: Config) {
