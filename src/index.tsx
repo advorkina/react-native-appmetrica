@@ -22,13 +22,10 @@ interface Config {
   appVersion?: string;
 }
 
-interface ReportPurchaseParams {
-  price: string;
-  currency: string;
-  productId: string;
-  quantity: number;
-  orderId: string;
-  source: string;
+export interface RevenueParams {
+  readonly quantity: number;
+  readonly productID: string;
+  readonly transactionID: string;
 }
 
 export function initialize(key: string, config?: Config) {
@@ -42,17 +39,6 @@ export function reportEvent(
   return ReactNativeAppmetrica.reportEvent(name, attributes);
 }
 
-export function reportPurchase(
-  reportPurchaseParams: ReportPurchaseParams,
-  key: string
-): void {
-  return ReactNativeAppmetrica.reportPurchase(
-    reportPurchaseParams.price,
-    reportPurchaseParams.currency,
-    reportPurchaseParams.productId,
-    reportPurchaseParams.quantity,
-    reportPurchaseParams.orderId,
-    reportPurchaseParams.source,
-    key
-  );
+export function revenueEvent(params: RevenueParams) {
+  ReactNativeAppmetrica.revenueEvent(params);
 }

@@ -62,12 +62,12 @@ public class ReactNativeAppmetricaModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void reportRevenue(ReadableMap attributes) {
+    public void revenueEvent(ReadableMap attributes) {
       double price = attributes.getDouble("price");
       Currency currency = Currency.getInstance(attributes.getString("currency"));
       Revenue revenue = Revenue
               .newBuilderWithMicros((long) price, currency)
-              .withQuantity(1)
+              .withQuantity(attributes.getInt("quantity"))
               .withProductID(attributes.getString("productID"))
               .build();
       YandexMetrica.reportRevenue(revenue);
