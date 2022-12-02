@@ -42,21 +42,28 @@ RCT_REMAP_METHOD(reportEvent,
     resolve(@"");
 }
 
-RCT_EXPORT_METHOD(reportPurchase:(NSString *)price currency:(NSString *)currency productID:(NSString *) productID quantity:(NSUInteger) quantity orderID: (NSString *) orderID source:(NSString *) source appMetricaKey:(NSString *)appMetricaKey)
+RCT_REMAP_METHOD(revenueEvent, withAttributes:(NSDictionary *)attributes)
 {
-    NSDecimalNumber *convertedPrice = [NSDecimalNumber decimalNumberWithString:price];
-    // Initializing the Revenue instance.
-        YMMMutableRevenueInfo *revenueInfo = [[YMMMutableRevenueInfo alloc] initWithPriceDecimal:convertedPrice currency:currency];
-        revenueInfo.productID = productID;
-    revenueInfo.quantity = quantity;
-        // Setting the OrderID parameter in the payload property to group purchases
-        revenueInfo.payload = @{ @"OrderID": orderID, @"source": source };
-        // Sending the Revenue instance using reporter.
-        id<YMMYandexMetricaReporting> reporter = [YMMYandexMetrica reporterForApiKey:appMetricaKey];
-        [reporter reportRevenue:[revenueInfo copy] onFailure:^(NSError *error) {
-            NSLog(@"Revenue error: %@", error);
-        }];
 
+    NSDecimal price = [RCTConvert NSNumber:[attributes valueForKey:@"price"]].decimalValue;
+    NSString *currency = [RCTConvert NSString:[attributes valueForKey:@"currency"]];
+    NSUInteger quantity = [RCTConvert NSUInteger:[attributes valueForKey:@"quantity"]];
+    NSString *productID = [RCTConvert NSString:[attributes valueForKey:@"productID"]];
+    NSString *transactionID = [RCTConvert NSString:[attributes valueForKey:@"transactionID"]];
+
+    YMMRevenueInfo *info = [[YMMRevenueInfo alloc]
+     initWithPriceDecimal:[NSDecimalNumber decimalNumberWithDecimal:price]
+     currency:currency
+     quantity:quantity
+     productID:productID
+     transactionID:transactionID
+     receiptData:nil
+     payload:nil];
+
+    [YMMYandexMetrica reportRevenue:info onFailure:^(NSError *error) {
+        NSString *msg = [error localizedDescription];
+        NSLog(@"revenueEventError %@", msg);
+    }];
 }
 
 // Don't compile this code when we build for the old architecture.
