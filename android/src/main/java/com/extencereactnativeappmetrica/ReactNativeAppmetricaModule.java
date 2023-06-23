@@ -49,6 +49,7 @@ public class ReactNativeAppmetricaModule extends ReactContextBaseJavaModule {
 
 
       YandexMetrica.activate(reactContext, builder.build());
+      YandexMetrica.enableActivityAutoTracking(this.getCurrentActivity().getApplication());
     }
 
     @ReactMethod
