@@ -1,5 +1,8 @@
 package com.extencereactnativeappmetrica;
 
+import android.app.Activity;
+import android.app.Application;
+
 import androidx.annotation.NonNull;
 
 import com.facebook.react.bridge.Arguments;
@@ -49,7 +52,13 @@ public class ReactNativeAppmetricaModule extends ReactContextBaseJavaModule {
 
 
       YandexMetrica.activate(reactContext, builder.build());
-      YandexMetrica.enableActivityAutoTracking(this.getCurrentActivity().getApplication());
+      Activity activity = this.getCurrentActivity();
+      if(activity != null) {
+        Application application = activity.getApplication();
+        if(application != null) {
+          YandexMetrica.enableActivityAutoTracking(application);
+        }
+      }
     }
 
     @ReactMethod
